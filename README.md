@@ -513,4 +513,79 @@ Detection ──► P1 Declared ──► MIM Bridge ──► Workaround ──
 - **Verification:** Confirm zero active OAuth tokens and account state set to `Disabled` in AD.
 - **Escalation Criteria:** For immediate involuntary terminations, escalate directly to L3 Security Operations.
 
+Markdown
+---
+
+## Phase 10: Joiner-Mover-Leaver (JML) Identity & Access Management
+
+### Overview & Security Governance
+The Joiner-Mover-Leaver (JML) workflow automates and secures the IT user lifecycle. It ensures zero-trust security compliance by enforcing **Least Privilege Access**, preventing **Permission Creep**, and guaranteeing immediate **Offboarding Deprovisioning**.
+
+---
+
+### 1. JOINER (Employee Onboarding Workflow)
+
+- **Trigger:** HR System (Workday/BambooHR) generates an automated Onboarding Request (`REQ0020001`).
+
+┌─────────────────┐     ┌──────────────────┐     ┌──────────────────┐
+│   HR Trigger    │ ──► │ Active Directory │ ──► │  Hardware & AD   │
+│ (Workday Entry) │     │ User Created     │     │ Group Assignment │
+└─────────────────┘     └──────────────────┘     └──────────────────┘
+
+
+#### Step-by-Step Joiner Execution Steps:
+1. **User & Identity Creation:** Automated creation of Active Directory (AD) / Azure AD account and corporate email address (`john.doe@apexglobal.com`).
+2. **Role-Based Group Assignment:** Auto-assignment to core Security Groups:
+   - `SG-All-Employees`
+   - `SG-Finance-Department`
+3. **Application & Access Provisioning:**
+   - Microsoft 365 E5 License assignment via Azure AD Group Rule.
+   - Cisco AnyConnect VPN profile provisioned with MFA token binding.
+4. **Hardware Asset Provisioning:**
+   - Catalog Task generated for Desktop Support to image standard Developer Laptop via Windows Autopilot.
+5. **Day 1 Delivery:** Laptop and secure temporary credentials delivered to hiring manager.
+
+---
+
+### 2. MOVER (Internal Department Transfer Workflow)
+
+- **Trigger:** HR transfer notification (`REQ0020050`) submitted 10 business days prior to effective transfer date.
+- **Scenario:** Employee moves from **Finance Department** to **Data Analytics Team**.
+
+#### Step-by-Step Mover Execution Steps:
+1. **Access Audit & Revocation (Old Access):**
+   - Remove membership from `SG-Finance-Department`.
+   - Revoke read/write permissions to `\\fileserver\finance_shared`.
+   - De-provision access to SAP Financials portal.
+2. **New Entitlement Provisioning:**
+   - Add membership to `SG-Data-Analytics`.
+   - Provision access to Power BI Premium workspace and Snowflake Data Warehouse.
+   - Grant access to `\\fileserver\analytics_shared`.
+3. **Manager & Metadata Update:** Update manager, department code, and cost center attributes in Active Directory / ServiceNow User record.
+
+---
+
+### 3. LEAVER (Employee Offboarding Workflow)
+
+- **Trigger:** HR Termination Notice (`REQ0030001`).
+- **SLA Target:** Immediate account termination upon offboarding effective timestamp.
+
+┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
+│ Active Directory │ ──► │ Session Revoke & │ ──► │   Asset Return   │
+│ Account Disabled │     │ Shared Mailbox   │     │   SCTASK Created │
+└──────────────────┘     └──────────────────┘     └──────────────────┘
+
+
+#### Step-by-Step Leaver Execution Steps:
+1. **Immediate Identity Disablement:**
+   - Set Active Directory account attribute `Active = False`.
+   - Revoke all active Azure AD OAuth/SAML single sign-on refresh tokens (Force Sign-Out).
+2. **Access & Security Group Revocation:**
+   - Strip all Active Directory security group memberships and elevated application roles.
+3. **Data Protection & Mailbox Delegation:**
+   - Convert primary user mailbox to Shared Mailbox and delegate access to line manager.
+   - Apply 30-day Litigation Hold to user OneDrive/Email archive.
+4. **Asset Recovery & Request Closure:**
+   - Generate Catalog Task (`SCTASK`) for IT Logistics to dispatch prepaid shipping container for laptop, badge, and peripherals return.
+   - Upon asset receipt confirmation, close all open access-related service requests (`REQ'/`RITM`).
 
