@@ -273,4 +273,82 @@ Markdown
 3. **Mean Time to Respond (MTTRsp):** Average time taken from ticket creation to agent assignment (`In Progress`).
 4. **Mean Time to Resolve (MTTR):** Average elapsed time from ticket creation to state set to `Resolved`.
 
+Markdown
+---
+
+## Phase 7: Major Incident Management (MIM) & Post-Incident Review (PIR)
+
+### Core ITSM Concept Distinctions
+
+| Metric / Aspect | Incident | Major Incident (MIM) | Problem Management |
+| :--- | :--- | :--- | :--- |
+| **Definition** | Unplanned service interruption or degradation. | Critical P1 outage causing widespread business impact. | Root cause investigation underlying recurring issues. |
+| **Primary Goal** | Fast service restoration for affected user(s). | Emergency service restoration and business continuity. | Permanent elimination of underlying infrastructure defects. |
+| **Target Audience** | Individual user or small department. | Entire enterprise, critical business lines, or customers. | Internal IT infrastructure and development teams. |
+| **Management Lead** | L1 / L2 Support Agent. | Dedicated Major Incident Manager (MIM). | Problem Manager / L3 Systems Engineering Lead. |
+
+---
+
+### Enterprise Major Incident Scenario: P1 Company-Wide VPN Outage
+
+- **Incident Reference:** `INC0010007-MIM`
+- **Affected Service:** Global Remote Access Service (Cisco AnyConnect VPN Gateway)
+- **Business Impact:** 4,500+ remote workers unable to authenticate or access internal corporate resources.
+- **Priority:** `P1 - Critical` (Impact: 1 - High | Urgency: 1 - High)
+
+#### End-to-End Major Incident Lifecycle & Timeline
+
+Detection ──► P1 Declared ──► MIM Bridge ──► Workaround ──► PIR
+
+
+- **08:00 AM — Detection:** Automated Monitoring (SAML SSO Gateway alert) triggers multiple L1 calls regarding VPN authentication failures.
+- **08:05 AM — P1 Declaration:** L1 Service Desk escalates to IT Operations Manager; ticket flagged and approved as **Major Incident**.
+- **08:10 AM — Technical Escalation & MIM Assignment:** MIM Lead assumes command, launches Emergency Bridge, and pages L2 Network & Security teams.
+- **08:15 AM — Stakeholder Communication #1:** Initial broadcast sent to leadership & end users: *"Investigating enterprise VPN access degradation."*
+- **08:25 AM — Investigation:** Technical team identifies expired SAML IDP Signing Certificate on the VPN Gateway cluster.
+- **08:35 AM — Workaround / Resolution Applied:** Emergency secondary certificate bound to the gateway; SAML metadata re-synced.
+- **08:45 AM — Service Restoration:** Authentication tests confirmed across 50 test users; VPN traffic stabilizes across all regions.
+- **08:50 AM — User Communication #2:** Final notification sent: *"Enterprise VPN service fully restored."*
+- **09:00 AM — Post-Incident Review (PIR):** Major Incident closed; Problem record created for Root Cause Analysis (RCA).
+
+---
+
+### Major Incident Escalation Matrix
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        Major Incident Manager                           │
+│                 (Command, Control & Stakeholder Comms)                  │
+└────────────────────────────────────┬────────────────────────────────────┘
+│
+┌───────────────────┴───────────────────┐
+▼                                       ▼
+┌──────────────────────────────────┐   ┌──────────────────────────────────┐
+│     L2/L3 Network & Security     │   │     Executive Leadership /       │
+│  (Technical Root Cause Triage)   │   │     Business Stakeholders        │
+└──────────────────────────────────┘   └──────────────────────────────────┘
+
+
+---
+
+### Stakeholder Communication Templates
+
+#### Initial Broadcast Notification (T+15 mins)
+> **SUBJECT:** [INCIDENT ALERT] Enterprise VPN Service Interruption — Priority 1
+> 
+> **Summary:** ApexGlobal IT is responding to a high-priority service interruption affecting the Cisco AnyConnect VPN Gateway.
+> 
+> **Impact:** Remote users are currently unable to establish VPN connections.
+> 
+> **Next Update:** 30 minutes or upon significant progress.
+
+---
+
+### Post-Incident Review (PIR) & RCA Report
+
+- **Root Cause:** The primary SAML Signing Certificate utilized for VPN SSO single-sign-on authentication expired unexpectedly due to an unmonitored automated renewal cron task.
+- **Resolution Applied:** Bound active secondary wildcard SSL/SAML certificate to the gateway cluster and force-refreshed identity provider metadata.
+- **Preventive Actions (Action Items):**
+  1. **PRB0010045:** Configure automated 30-day/15-day SSL/TLS certificate expiry alerts in Azure Key Vault / ServiceNow CMDB.
+  2. **PRB0010046:** Add VPN SAML endpoints to synthetic monitoring suite for proactive ping checks.
+
 
