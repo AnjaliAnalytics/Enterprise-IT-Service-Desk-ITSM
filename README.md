@@ -387,4 +387,130 @@ Detection ──► P1 Declared ──► MIM Bridge ──► Workaround ──
 7. **Audit & Documentation:**
    - All steps, identity verification logs, and Intune temporary policy exceptions documented in the ticket for SOC2 compliance auditing.
 
+   ---
+
+## Phase 9: Knowledge Base & Knowledge-Centered Service (KCS)
+
+### How Knowledge Management Drives Operational Efficiency
+- **Ticket Volume Reduction (Deflection):** Empowering end-users with self-service KB articles via the Service Portal reduces repetitive L1 password reset and basic access tickets by up to 30%.
+- **First Contact Resolution (FCR) Improvement:** Standardized SOPs allow L1 Service Desk agents to troubleshoot complex issues during initial contact without escalating to L2/L3 teams.
+- **Mean Time to Resolve (MTTR) Optimization:** Eliminates reinventing the wheel by linking verified resolution steps directly to Incident records.
+
+---
+
+### Enterprise Knowledge Base Repository (10 Production SOP Articles)
+
+#### 1. KB0010001 — How to Reset Windows Domain Password
+- **Problem:** User forgotten or expired Active Directory / Windows login password.
+- **Symptoms:** `The password you entered is incorrect` prompt at Windows lock screen.
+- **Cause:** Domain password expired after 90-day cycle or user entered incorrect password multiple times.
+- **Resolution:**
+  1. Navigate to `https://sso.apexglobal.com/password-reset`.
+  2. Authenticate using secondary MFA (Okta / Authenticator App).
+  3. Enter new password meeting complexity requirements (12+ characters, mixed case, number, symbol).
+- **Verification:** Lock Windows screen (`Win + L`) and log in with new password.
+- **Escalation Criteria:** If MFA token is out of sync, escalate to L1 Service Desk for identity verification and bypass code.
+
+#### 2. KB0010002 — How to Troubleshoot VPN Connectivity Issues
+- **Problem:** Cisco AnyConnect VPN fails to establish connection from remote network.
+- **Symptoms:** Error message `Connection attempt failed due to network latency or timeout`.
+- **Cause:** Corrupted local SSL certificate cache or DNS resolution failure.
+- **Resolution:**
+  1. Open Command Prompt as Administrator and run `ipconfig /flushdns`.
+  2. Open Cisco AnyConnect client, click **Preferences** ➔ check **Unblock untrusted certificates**.
+  3. Restart `Cisco AnyConnect Secure Mobility Agent` in `services.msc`.
+- **Verification:** Reconnect to `vpn.apexglobal.com`; verify green checkmark and internal intranet access.
+- **Escalation Criteria:** If authentication fails with 401, escalate to L2 Network Support.
+
+#### 3. KB0010003 — Outlook Not Sending or Receiving Emails
+- **Problem:** Outbound emails stuck in Outbox folder.
+- **Symptoms:** Error code `0x800CCC0F` in Outlook status bar.
+- **Cause:** Corrupted Offline Outlook Data File (.OST).
+- **Resolution:**
+  1. Close Microsoft Outlook.
+  2. Navigate to `%localappdata%\Microsoft\Outlook`.
+  3. Rename `outlook.ost` to `outlook.ost.old`.
+  4. Relaunch Outlook to force automatic rebuild of offline cache.
+- **Verification:** Send a test email to `test-mail@apexglobal.com` and confirm receipt.
+- **Escalation Criteria:** If issue persists on Outlook Web App (OWA), escalate to L2 Application Support (Exchange Online).
+
+#### 4. KB0010004 — Microsoft Teams Audio and Video Troubleshooting
+- **Problem:** Audio dropping or webcam failing during Teams calls.
+- **Symptoms:** `Your microphone is not working` warning during call initialization.
+- **Cause:** Windows privacy settings blocking app permissions or cached device driver conflicts.
+- **Resolution:**
+  1. Navigate to **Windows Settings ➔ Privacy & Security ➔ Microphone**.
+  2. Ensure **Let desktop apps access your microphone** is toggled **ON**.
+  3. In Teams, go to **Settings ➔ Devices** and confirm correct headset/mic is selected under primary audio.
+- **Verification:** Perform a test call via **Teams ➔ Settings ➔ Devices ➔ Make a test call**.
+- **Escalation Criteria:** If hardware driver failure persists, escalate to L1 Service Desk for hardware diagnostic.
+
+#### 5. KB0010005 — Windows Network Connectivity & IP Release/Renew Procedure
+- **Problem:** Workstation loses local LAN/Wi-Fi internet access.
+- **Symptoms:** Yellow warning triangle on network icon; `No Internet, Secured` message.
+- **Cause:** Invalid IP address assignment or stale DHCP lease.
+- **Resolution:**
+  1. Open CMD as Administrator.
+  2. Run `ipconfig /release` followed by `ipconfig /renew`.
+  3. Run `netsh winsock reset` and restart the computer.
+- **Verification:** Run `ping 8.8.8.8` and verify successful ICMP echo replies.
+- **Escalation Criteria:** If no IP assigned (`169.254.x.x` APIPA), escalate to L2 Infrastructure / Network team.
+
+#### 6. KB0010006 — Active Directory Account Lockout Troubleshooting
+- **Problem:** User account repeatedly locked out automatically.
+- **Symptoms:** `Your account has been locked. Contact your administrator` message.
+- **Cause:** Stale cached credentials on secondary devices (mobile email client, mapped network drives).
+- **Resolution:**
+  1. Disconnect Wi-Fi on user's mobile phone/tablet.
+  2. Clear stored credentials in Windows **Credential Manager**.
+  3. Unlock account via Active Directory Administrative Center or Self-Service Portal.
+- **Verification:** Confirm zero failed audit login attempts in Active Directory event log for 15 minutes.
+- **Escalation Criteria:** If continuous lockouts occur immediately after unlocking, escalate to L3 Security for brute-force investigation.
+
+#### 7. KB0010007 — Shared Network Printer Mapping & Troubleshooting
+- **Problem:** Unable to print to department network printer.
+- **Symptoms:** Printer state shows `Offline` or print job remains in queue indefinitely.
+- **Cause:** Print spooler service hang on local client machine.
+- **Resolution:**
+  1. Open `services.msc`, locate **Print Spooler**, and click **Stop**.
+  2. Navigate to `C:\Windows\System32\spool\PRINTERS` and delete all temporary spool files.
+  3. Start the **Print Spooler** service again.
+- **Verification:** Print a test page from Printer Properties.
+- **Escalation Criteria:** If print server port unreachable, escalate to L2 Infrastructure.
+
+#### 8. KB0010008 — Software Installation Standard Procedure via Intune / Software Center
+- **Problem:** User requires pre-approved software installation (e.g., VS Code, Chrome, Adobe Reader).
+- **Symptoms:** Standard user account lacks Administrator privileges for manual `.exe` installation.
+- **Cause:** Security policy restricting non-admin installer execution.
+- **Resolution:**
+  1. Open **Company Portal** (Microsoft Intune app) from Start Menu.
+  2. Search for desired software in search catalog.
+  3. Click **Install** to initiate elevated background deployment.
+- **Verification:** Verify application shortcut appears in Start Menu and launches cleanly.
+- **Escalation Criteria:** If software installation fails with exit code `1603`, escalate to L1 Service Desk.
+
+#### 9. KB0010009 — New Employee IT Onboarding Checklist (Internal SOP)
+- **Problem:** Provisioning equipment and access for new hires prior to Day 1.
+- **Symptoms:** Unprovisioned accounts or missing hardware causing onboarding delays.
+- **Cause:** Mandatory onboarding tasks not executed in sequence.
+- **Resolution:**
+  1. Verify active `HR-RITM` onboarding ticket in ServiceNow.
+  2. Generate Active Directory account & Office 365 license assignment.
+  3. Image standard laptop model using Windows Autopilot deployment profile.
+  4. Dispatch welcome email containing temporary credentials to hiring manager.
+- **Verification:** Perform test login with temporary credentials on imaged device.
+- **Escalation Criteria:** If HR data mismatch occurs, escalate to HR Systems Admin.
+
+#### 10. KB0010010 — Employee Offboarding IT Checklist (Internal SOP)
+- **Problem:** Revoking system access and securing company assets upon employee departure.
+- **Symptoms:** Active corporate credentials remaining accessible post-termination date.
+- **Cause:** Incomplete offboarding task execution.
+- **Resolution:**
+  1. Disable Active Directory account and force-signout all active Office 365 sessions.
+  2. Convert user mailbox to Shared Mailbox and assign access to departing employee's manager.
+  3. Wipe mobile device corporate container via Intune MDM.
+  4. Issue asset return shipping label for hardware retrieval.
+- **Verification:** Confirm zero active OAuth tokens and account state set to `Disabled` in AD.
+- **Escalation Criteria:** For immediate involuntary terminations, escalate directly to L3 Security Operations.
+
 
