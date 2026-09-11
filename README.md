@@ -635,3 +635,61 @@ The Joiner-Mover-Leaver (JML) workflow automates and secures the IT user lifecyc
    - Confirmation logged in `RITM0010099`; ticket closed with complete audit trail.
 6. **Deprovisioning (Lifecycle Trigger):**
    - Access set to expire automatically after 90 days unless re-certified during quarterly access review.
+
+   ---
+
+## Phase 12: Service Desk Reporting & Executive Analytics Dashboard
+
+### Executive Performance Dashboard (Monthly Sample Data)
+
+| Metric Category | Key Performance Indicator (KPI) | Monthly Benchmark Target | Current Actual Value | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **Volume Metrics** | Total Tickets Ingested | N/A (Volume Tracking) | **1,250** | Normal |
+| | Open Tickets (In-Flight) | < 100 | **65** | Healthy |
+| | Resolved Tickets | > 1,100 | **1,120** | On Target |
+| | Closed Tickets | > 1,100 | **1,065** | On Target |
+| **Priority Breakdown** | P1 - Critical | < 2% | **12** (0.9%) | Excellent |
+| | P2 - High | < 8% | **68** (5.4%) | On Target |
+| | P3 - Moderate | ~ 60% | **780** (62.4%) | Normal |
+| | P4 - Low | ~ 30% | **390** (31.2%) | Normal |
+| **SLA & Speed** | SLA Compliance Rate | ≥ 95.0% | **96.8%** | Met |
+| | SLA Breaches | < 5.0% | **40 tickets** (3.2%) | Met |
+| | Avg Response Time (First Contact) | < 15 mins | **8.5 mins** | Exceeded |
+| | Avg Resolution Time (MTTR) | < 4.0 hours | **2.8 hours** | Exceeded |
+| **Quality** | User Satisfaction (CSAT Score) | ≥ 4.5 / 5.0 | **4.7 / 5.0** (94%) | Exceeded |
+
+---
+
+### Operational Breakdown & Distribution Metrics
+
+#### 1. Tickets by Category
+- **Software & SaaS:** 450 (36%)
+- **Identity & Access Management (IAM):** 325 (26%)
+- **Hardware & Peripherals:** 225 (18%)
+- **Network & VPN:** 150 (12%)
+- **Email & Collaboration Tools:** 100 (8%)
+
+#### 2. Tickets by Assignment Group
+- **L1 Service Desk:** 750 (60%) *(High First Contact Resolution)*
+- **L2 Application Support:** 250 (20%)
+- **L2 Infrastructure & Network:** 150 (12%)
+- **L3 Systems Engineering:** 62 (5%)
+- **L3 Security Operations:** 38 (3%)
+
+#### 3. Tickets by Department
+- **Sales & Marketing:** 380 (30.4%)
+- **Engineering & Product:** 320 (25.6%)
+- **Finance & Accounting:** 250 (20.0%)
+- **Human Resources (HR):** 180 (14.4%)
+- **Legal & Compliance:** 120 (9.6%)
+
+---
+
+### KPI Definitions & Business Value
+
+1. **Total / Open / Resolved / Closed Tickets:** Tracks volume trends, operational backlog size, and team throughput efficiency over time.
+2. **P1/P2/P3/P4 Priority Distribution:** Measures business urgency and risk exposure; highlights whether incidents are predominantly operational friction or critical outages.
+3. **SLA Compliance & SLA Breaches:** Evaluates IT commitment adherence against documented Service Level Agreements across initial response and resolution times.
+4. **Average Response Time:** Measures how quickly an IT support agent acknowledges a ticket and initiates first contact with the user.
+5. **Average Resolution Time (MTTR):** Calculates the average duration from ticket creation to technical service restoration.
+6. **User Satisfaction (CSAT):** Captured via post-closure automated micro-surveys to evaluate end-user experience, support quality, and communication clarity.
