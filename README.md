@@ -168,5 +168,50 @@ Markdown
 | `INC00100014`| Access | Developer missing access to AWS S3 Bucket | Medium / Medium | **P3 - Medium** | `L3 Information Security` | Solved (Permanently) |
 | `INC00100015`| Application | Salesforce CRM sync error 401 Unauthorized | Medium / High | **P2 - High** | `L2 Application Support` | Solved (Permanently) |
 
+Markdown
+---
+
+## Phase 5: Service Request Management & Service Catalog
+
+### Incident vs. Service Request
+
+| Feature | Incident Management | Service Request Management |
+| :--- | :--- | :--- |
+| **Primary Goal** | Restore normal service after an unplanned outage or error. | Fulfill pre-approved, planned user requests for goods/services. |
+| **Trigger** | Unexpected failure (e.g., VPN down, system crash). | User demand (e.g., new employee setup, software installation). |
+| **Workflow** | Triage ➔ Investigation ➔ Fix ➔ Resolution. | Approval ➔ Provisioning ➔ Verification ➔ Fulfillment. |
+| **SLA Impact** | High urgency (varies by business disruption). | Standard fulfillment lead time (e.g., 2–5 business days). |
+
+### Service Catalog Architecture
+
+#### 1. Hardware Category
+- **Standard Laptop Request:** Provisioning developer or executive hardware models.
+- **External Monitor Request:** Single or dual-monitor setup options.
+- **Peripherals Replacement:** Ergonomic keyboard, mouse, and headset dispatch.
+
+#### 2. Software Category
+- **Microsoft Office / 365 License:** Automated license provisioning via Azure AD groups.
+- **VPN Client Provisioning:** Configuration and access setup for Cisco AnyConnect / GlobalProtect.
+- **Application Installation Request:** Silent deployment via SCCM/Intune for approved software.
+
+#### 3. Access & Identity Category
+- **New Employee Account Onboarding:** Provisioning AD, Email, and Slack accounts upon HR trigger.
+- **Shared Network Folder Access:** Folder permissions managed via Security Group assignment.
+- **Role-Based Application Access:** Granting elevated entitlements with manager sign-off.
+
+### Request Fulfillment Data Architecture
+┌─────────────────────────────────────────┐
+│              Request (REQ)              │  <-- Master Order Bucket
+└────────────────────┬────────────────────┘
+│
+▼
+┌─────────────────────────────────────────┐
+│          Requested Item (RITM)          │  <-- Individual Catalog Item
+└────────────────────┬────────────────────┘
+│
+▼
+┌─────────────────────────────────────────┐
+│           Catalog Task (SCTASK)         │  <-- Fulfillment Task for Support Team
+└─────────────────────────────────────────┘
 
 
