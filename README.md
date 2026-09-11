@@ -104,4 +104,42 @@ Markdown
 └───────────┘       └───────────┘           └───────────┘ └───────┘ └───────────┘
 
 
+Markdown
+---
+
+## Phase 3: ITSM Data Model & Entity Schema
+
+### Core Entities Architecture
+
+| Entity / Table Name | Table Identifier | Primary Purpose | Key Relationships | Business Justification |
+| :--- | :--- | :--- | :--- | :--- |
+| **Users** | `sys_user` | Profile & identity records | `caller_id` on Incident, `requested_for` on Requests | Enables RBAC, authentication, and personalized service delivery. |
+| **Assignment Groups**| `sys_user_group` | Team queues for work allocation | Assigned to `incident`, `sc_req_item`, `change_request` | Ensures work routes to operational units rather than single points of failure. |
+| **Incidents** | `incident` | Unplanned service interruptions | Belongs to `sys_user`, links to `cmdb_ci`, `problem` | Restores normal service operations quickly to minimize business impact. |
+| **Service Requests**| `sc_req_item` | Service Catalog order fulfillments | Child of `sc_request`, parent to `sc_task` | Fulfills planned standard end-user requests (hardware, software, access). |
+| **Problems** | `problem` | Root-cause analysis tracking | 1-to-Many relationship with `incident` records | Prevents recurring incidents by identifying permanent fixes and workarounds. |
+| **Changes** | `change_request` | System modifications & updates | Linked to `problem` and `cmdb_ci` | Controls risk during patches, upgrades, and structural modifications. |
+| **Knowledge Articles**| `kb_knowledge` | SOPs, guides, and workarounds | Linked to `incident` via KCS resolution flow | Enhances First Contact Resolution (FCR) and enables self-service support. |
+| **SLA Records** | `task_sla` | Response and resolution timing | Attached to `task` child tables | Enforces compliance with operational level agreements and contracts. |
+| **Configuration Items**| `cmdb_ci` | IT infrastructure hardware/software | Linked to `incident`, `change_request`, `problem` | Maps technical dependencies to assess risk and pinpoint outage causes. |
+| **Approvals** | `sys_approval` | Governance and sign-off tracking | Linked to `sc_req_item` and `change_request` | Enforces policy and financial oversight before fulfilling requests. |
+
+### Data Model Relationship Schema
+┌──────────────┐          1:N          ┌──────────────────┐
+│   sys_user   │ ────────────────────► │     incident     │
+└──────┬───────┘                       └────────┬─────────┘
+│                                        │
+│ 1:N                                    │ N:1
+▼                                        ▼
+┌──────────────┐          N:1          ┌──────────────────┐
+│sys_user_group│ ◄──────────────────── │     cmdb_ci      │
+└──────────────┘                       └────────┬─────────┘
+│
+│ N:1
+▼
+┌──────────────────┐
+│  change_request  │
+└──────────────────┘
+
+
 
