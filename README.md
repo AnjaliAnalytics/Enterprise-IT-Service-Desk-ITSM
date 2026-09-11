@@ -739,3 +739,43 @@ Based on the operational ticket dataset from Phase 12, the following key operati
 
 
 * **Continuous Review Cycle:** Monthly Service Desk performance audits led by the IT Service Desk Manager to adjust SLA targets, refine KB articles, and evaluate automated deflection rates.
+
+---
+
+## Phase 15: ITSM Process Troubleshooting & Diagnostic Playbook
+
+### Common ITSM Process Failures & Remediation Procedures
+
+| Failure Scenario | Root Cause | Diagnostic Steps | Corrective Action |
+| :--- | :--- | :--- | :--- |
+| **Incorrect Assignment Group** | Agent selected wrong group or auto-assignment rule misfired. | 1. Open ticket Activity Log.<br>2. Check `sys_audit` table for original routing logic. | 1. Reassign to correct group (`Network`/`Software`).<br>2. Add work note explaining reassignment.<br>3. Update `sys_rule_assignment` rule if misfire occurred. |
+| **Incorrect Priority Matrix** | User/Agent set Impact/Urgency too low during triage. | 1. Review short description & blast radius.<br>2. Check if affected service is core infrastructure. | 1. Update Impact & Urgency fields.<br>2. Verify matrix auto-recalculates to **P1/P2**.<br>3. Trigger Major Incident workflow if needed. |
+| **Stuck Approval (Access Request)** | Assigned approver on leave or account disabled in AD. | 1. Check `sysapproval_approver` status.<br>2. Verify approver active state in `sys_user`. | 1. Delegate approval to designated backup manager.<br>2. Force admin approval update with logged audit reason. |
+| **SLA Breach / Near-Breach** | Ticket sat unassigned in dispatch queue. | 1. Inspect Task SLA tab (`task_sla`).<br>2. Check breach warning time triggers. | 1. Escalate to Duty Manager.<br>2. Reassign to active L2/L3 agent immediately.<br>3. Log SLA exception reason in ticket notes. |
+| **Invalid State Transition** | Incident set to Resolved without close code or root cause. | 1. Observe UI policy enforcement blocking ticket save. | 1. Fill mandatory fields (`Close code`, `Close notes`).<br>2. Set state back to `In Progress` if user confirms issue unresolved. |
+
+---
+
+### Troubleshooting Workflow Diagram
+
+┌───────────────────────────┐
+│ Incident/Process Failure  │
+└─────────────┬─────────────┘
+│
+▼
+┌───────────────────────────┐
+│ Audit Trail Investigation │
+│   (Activity / sys_audit)  │
+└─────────────┬─────────────┘
+│
+▼
+┌───────────────────────────┐
+│ Apply Corrective Action   │
+│ (State / Group / Priority)│
+└─────────────┬─────────────┘
+│
+▼
+┌───────────────────────────┐
+│  Log Work Notes & Close   │
+│    Root Cause Gap         │
+└───────────────────────────┘
