@@ -693,3 +693,49 @@ The Joiner-Mover-Leaver (JML) workflow automates and secures the IT user lifecyc
 4. **Average Response Time:** Measures how quickly an IT support agent acknowledges a ticket and initiates first contact with the user.
 5. **Average Resolution Time (MTTR):** Calculates the average duration from ticket creation to technical service restoration.
 6. **User Satisfaction (CSAT):** Captured via post-closure automated micro-surveys to evaluate end-user experience, support quality, and communication clarity.
+
+---
+
+## Phase 13: Continuous Service Improvement (CSI) Report
+
+### 1. Incident Data Analytics & Trend Findings
+
+Based on the operational ticket dataset from Phase 12, the following key operational patterns and friction points were identified:
+
+* **Most Common Incident Category:** `Software & SaaS` (450 tickets / 36% total volume).
+* **Most Common Recurring Issue:** Active Directory Account Lockouts & Password Resets (325 tickets / 26% total volume).
+* **Highest-Volume Department:** `Sales & Marketing` (380 tickets / 30.4% total volume), driven primarily by remote access and password sync issues.
+* **Frequent VPN Issues:** 150 tickets related to stale Cisco AnyConnect SSL certificates and split-tunnel routing errors.
+* **SLA Breach Pattern Analysis:** Out of 40 SLA breaches, 28 (70%) occurred in `L2 Infrastructure & Network` due to manual provisioning bottlenecks and missing automated alert triggers for expiring certificates.
+
+---
+
+### 2. Strategic Improvement Initiatives & Action Plan
+
+| Identified Problem / Trend | Proposed Root-Cause Solution | Implementation Steps | Expected Target Outcome |
+| :--- | :--- | :--- | :--- |
+| **High Volume Password Resets** (26% of all tickets) | Self-Service Password Reset (SSPR) & MFA Integration | 1. Enable Okta / Azure AD SSPR portal.<br>2. Publish KB0010001 to Service Portal.<br>3. Send user onboarding guide. | **60% reduction** in L1 password reset ticket volume within 60 days. |
+| **Stale VPN Certificates** (12% of all tickets) | Automated Certificate Lifecycle Management | 1. Configure PKI auto-enrollment.<br>2. Deploy 30-day automated expiration alerts in ServiceNow CMDB. | **80% decrease** in remote VPN connection errors. |
+| **L2 Infrastructure SLA Breaches** (70% of breaches) | Workflows & Auto-Routing Rules | 1. Implement automated ticket routing via `sys_rule_assignment`.<br>2. Configure automated SMS alerts for unassigned P2 tickets after 15 mins. | **Zero SLA breaches** caused by assignment delay. |
+
+---
+
+### 3. Improvement Verification & Governance Matrix
+
+┌────────────────────────────────┐
+│ Identify Ticket Trend (36% App)│
+└───────────────┬────────────────┘
+│
+▼
+┌────────────────────────────────┐
+│ Implement SSPR & KB Automation │
+└───────────────┬────────────────┘
+│
+▼
+┌────────────────────────────────┐
+│ Measure Volume Deflection      │
+│ (Target: -60% Password Tickets)│
+└────────────────────────────────┘
+
+
+* **Continuous Review Cycle:** Monthly Service Desk performance audits led by the IT Service Desk Manager to adjust SLA targets, refine KB articles, and evaluate automated deflection rates.
