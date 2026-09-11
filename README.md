@@ -589,3 +589,49 @@ The Joiner-Mover-Leaver (JML) workflow automates and secures the IT user lifecyc
    - Generate Catalog Task (`SCTASK`) for IT Logistics to dispatch prepaid shipping container for laptop, badge, and peripherals return.
    - Upon asset receipt confirmation, close all open access-related service requests (`REQ'/`RITM`).
 
+---
+
+## Phase 11: Access Management & Security Governance Framework
+
+### Enterprise Access Management Principles
+
+1. **Principle of Least Privilege:**
+   - Access is restricted to the minimum permissions required for job execution.
+   - Default state for all internal systems is `Deny All` until authorized.
+2. **Mandatory Multi-Tier Approvals:**
+   - No access provisioned without auditable manager and application owner sign-off.
+3. **Separation of Duties (SoD):**
+   - Requester, Approver, and Provisioner must be three distinct individuals.
+   - Prevents privileged access abuse and internal financial/security conflicts.
+4. **Periodic Access Review (Access Certification):**
+   - Quarterly automated access reviews sent to department managers to confirm active employee entitlements.
+   - Unverified access auto-revoked after 14 calendar days.
+
+---
+
+### End-to-End Access Request & Provisioning Lifecycle
+
+[User Request] ──► [Manager Approval] ──► [IT Owner Approval] ──► [Provisioning] ──► [Verification]
+
+#### Step-by-Step Access Execution Workflow (Example: Production Database Access)
+
+- **Request Reference:** `RITM0010099`
+- **Target Entitlement:** Read-Only Access to Production Finance Database (`DB-FIN-PROD-01`)
+
+1. **User Access Request:**
+   - End-user submits request via Service Catalog with business justification.
+   - System records requester ID, timestamp, and target resource details.
+2. **Manager Approval (Tier 1):**
+   - Automated approval task assigned to requester's direct manager.
+   - Manager reviews business need and approves via email / portal action.
+3. **IT / Resource Owner Approval (Tier 2):**
+   - Secondary approval task routed to **Database Security Administrator**.
+   - Security team verifies Separation of Duties compliance before sign-off.
+4. **Provisioning (Automated / Manual Task):**
+   - Catalog Task (`SCTASK`) assigned to `L3 Information Security`.
+   - Security engineer provisions user into Active Directory group `SG-DB-FIN-READ`.
+5. **Verification & Audit Logging:**
+   - Automated script tests database authentication using provisioned group.
+   - Confirmation logged in `RITM0010099`; ticket closed with complete audit trail.
+6. **Deprovisioning (Lifecycle Trigger):**
+   - Access set to expire automatically after 90 days unless re-certified during quarterly access review.
