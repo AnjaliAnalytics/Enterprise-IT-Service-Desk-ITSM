@@ -214,4 +214,63 @@ Markdown
 │           Catalog Task (SCTASK)         │  <-- Fulfillment Task for Support Team
 └─────────────────────────────────────────┘
 
+Markdown
+---
+
+## Phase 6: Service Level Agreement (SLA) Management
+
+> **Note:** The SLA targets and thresholds detailed below are project-defined example SLA targets created for this ITSM implementation model, not actual company SLAs.
+
+### SLA Priority Targets Matrix
+
+| Priority Level | Response Time SLA Target | Resolution Time SLA Target | Schedule / Operating Hours |
+| :--- | :--- | :--- | :--- |
+| **P1 — Critical** | `15 minutes` | `1 hour` | 24x7 Continuous |
+| **P2 — High** | `30 minutes` | `4 hours` | 24x7 Continuous |
+| **P3 — Medium** | `2 hours` | `8 business hours` | 8x5 Business Hours |
+| **P4 — Low** | `4 hours` | `24 business hours` | 8x5 Business Hours |
+
+---
+
+### SLA State Lifecycle & Trigger Rules
+
+- **SLA Start:** Triggered automatically upon Incident creation when `Active = true` and `Priority` is assigned.
+- **SLA Pause:** Triggered when Incident `State` changes to `On Hold` / `Pending` with reason `Awaiting Caller` or `Awaiting Vendor`. (Prevents unfair SLA elapsed time during external delays).
+- **SLA Resume:** Triggered when Incident state transitions back to `In Progress` after receiving caller/vendor response.
+- **SLA Completion:** Triggered when Incident state changes to `Resolved` or `Closed` prior to target duration breach.
+- **SLA Breach:** Occurs if elapsed business time exceeds target duration while ticket remains un-resolved.
+
+---
+
+### SLA Performance & Breach Reporting Architecture
+
+                   ┌──────────────────────────┐
+                   │   Incident Created       │
+                   └────────────┬─────────────┘
+                                │
+                                ▼
+                   ┌──────────────────────────┐
+                   │   Task SLA Attached      │
+                   └────────────┬─────────────┘
+                                │
+        ┌───────────────────────┴───────────────────────┐
+        ▼                                               ▼
+┌───────────────────────┐                       ┌───────────────────────┐
+│ Ticket Resolved within│                       │  Time Target Exceeded │
+│     Target Time       │                       │     Without Fix       │
+└───────────┬───────────┘                       └───────────┬───────────┘
+│                                               │
+▼                                               ▼
+┌───────────────────────┐                       ┌───────────────────────┐
+│ Stage: COMPLETED      │                       │ Stage: BREACHED       │
+│ (SLA Met)             │                       │ (Escalated to Manager)│
+└───────────────────────┘                       └───────────────────────┘
+
+
+#### Key SLA KPI Reports
+1. **First Contact Resolution (FCR) Rate:** Percentage of tickets resolved on initial L1 contact without transfer.
+2. **SLA Compliance %:** `(Total Met SLAs / Total Incidents) * 100` (Target: > 95%).
+3. **Mean Time to Respond (MTTRsp):** Average time taken from ticket creation to agent assignment (`In Progress`).
+4. **Mean Time to Resolve (MTTR):** Average elapsed time from ticket creation to state set to `Resolved`.
+
 
