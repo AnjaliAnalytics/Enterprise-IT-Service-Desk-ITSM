@@ -141,5 +141,32 @@ Markdown
 │  change_request  │
 └──────────────────┘
 
+---
+
+## Phase 4: Incident Management Lifecycle & Sample Datasets
+
+### Incident Lifecycle Flow
+`New` ➔ `Assigned` ➔ `In Progress` ➔ `Pending` ➔ `Resolved` ➔ `Closed`
+
+### Sample Incident Dataset (15 Production Scenarios)
+
+| Incident # | Category | Short Description | Impact / Urgency | Priority | Assignment Group | Resolution Code |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `INC0010001` | VPN | Executive VPN authentication timeout | Medium / High | **P2 - High** | `L2 Network Support` | Solved (Permanently) |
+| `INC0010002` | Email | Outlook failing to send outbound emails | Low / Medium | **P4 - Low** | `L1 Service Desk Agents` | Solved (Workaround) |
+| `INC0010003` | Access | Active Directory domain login account locked | Low / High | **P3 - Medium** | `L1 Service Desk Agents` | Solved (Permanently) |
+| `INC0010004` | Access | Self-service MFA reset failure | Low / Medium | **P4 - Low** | `L1 Service Desk Agents` | Solved (Permanently) |
+| `INC0010005` | Hardware | Floor 3 Shared Network Printer Offline | Medium / Medium | **P3 - Medium** | `L2 Infrastructure Support` | Solved (Permanently) |
+| `INC0010006` | Application | Enterprise ERP Application crash on startup | Low / Medium | **P4 - Low** | `L2 Application Support` | Solved (Permanently) |
+| `INC0010007` | Network | Building B Core Switch Outage | High / High | **P1 - Critical** | `L2 Network Support` | Solved (Permanently) |
+| `INC0010008` | Software | Microsoft Teams audio dropouts on Wi-Fi | Low / Low | **P4 - Low** | `L1 Service Desk Agents` | Solved (Workaround) |
+| `INC0010009` | Software | Power BI Desktop installation deployment | Low / Low | **P4 - Low** | `L1 Service Desk Agents` | Solved (Permanently) |
+| `INC00100010`| Security | Suspicious phishing link clicked | Medium / High | **P2 - High** | `L3 Information Security` | Solved (Permanently) |
+| `INC00100011`| Hardware | Laptop battery not charging | Low / Low | **P4 - Low** | `L1 Service Desk Agents` | Solved (Permanently) |
+| `INC00100012`| VPN | Split tunnel routing failing for AWS Console | Medium / Medium | **P3 - Medium** | `L2 Network Support` | Solved (Permanently) |
+| `INC00100013`| Email | Shared Mailbox missing from Outlook | Medium / Medium | **P3 - Medium** | `L1 Service Desk Agents` | Solved (Permanently) |
+| `INC00100014`| Access | Developer missing access to AWS S3 Bucket | Medium / Medium | **P3 - Medium** | `L3 Information Security` | Solved (Permanently) |
+| `INC00100015`| Application | Salesforce CRM sync error 401 Unauthorized | Medium / High | **P2 - High** | `L2 Application Support` | Solved (Permanently) |
+
 
 
